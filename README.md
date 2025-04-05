@@ -93,4 +93,4 @@ discord-tool-cpp/
 
 ---
 
-Need help making an interactive command interface or UI? Let me know 💡
+Made with ❤️ by Hydra
