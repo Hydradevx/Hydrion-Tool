@@ -2,21 +2,15 @@ CXX = g++
 CXXFLAGS = -Wall -std=c++17
 
 SRC_DIR = src
-BIN_DIR = bin
+BIN_DIR = build
 
 TARGET = $(BIN_DIR)/discordtool
-UPDATER = $(BIN_DIR)/updater
 
-SRCS = $(SRC_DIR)/main.cpp
-UPDATER_SRC = $(SRC_DIR)/updater.cpp
+SRCS = $(SRC_DIR)/*.cpp
 
-all: $(TARGET) $(UPDATER)
+all: $(TARGET)
 
 $(TARGET): $(SRCS)
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
-
-$(UPDATER): $(UPDATER_SRC)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
