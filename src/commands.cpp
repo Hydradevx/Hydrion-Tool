@@ -6,6 +6,7 @@
 #include "../include/art.h"
 #include "../include/token.h"
 #include "../include/stats.h"
+#include "../include/deviceinfo.h"
 
 using namespace std;
 
@@ -45,8 +46,9 @@ void executeCommand(const vector<string>& commands, int index) {
         getUserStats();
     } else if (commands[index].find("Server Stats") != string::npos) {
         getServerStats();
-    }
-    else {
+    } else if (commands[index].find("Show Device Info") != string::npos) {
+        showDeviceInfo();
+    } else {
         cout << "Command executed but has no real function yet.\n";
     }
 }

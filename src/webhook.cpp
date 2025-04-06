@@ -78,8 +78,10 @@ void spamWebhook() {
             for (int i = 0; i < count; i++) {
 #ifdef _WIN32
                 string command = "curl -s -X POST -H \"Content-Type: application/json\" -d \"{\\\"content\\\": \\\"" + message + "\\\"}\" " + hook + " > nul";
+                cout << "\n\033[33m[✔] Sent message " << i + 1 << " to " << hook << "\033[0m" << endl;
 #else
                 string command = "curl -s -X POST -H 'Content-Type: application/json' -d '{\"content\": \"" + message + "\"}' " + hook + " > /dev/null 2>&1";
+                cout << "\n\033[33m[✔] Sent message " << i + 1 << " to " << hook << "\033[0m" << endl;
 #endif
                 system(command.c_str());
             }

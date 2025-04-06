@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++17
+CXXFLAGS = -std=c++17 -Iinclude
 
 SRC_DIR = src
 BIN_DIR = build
@@ -16,9 +16,6 @@ $(TARGET): $(SRCS)
 
 run: all
 	./$(TARGET)
-
-update: $(UPDATER)
-	./$(UPDATER)
 
 clean:
 	rm -rf $(BIN_DIR)

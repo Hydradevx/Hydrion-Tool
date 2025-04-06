@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
         "Remove Token - Delete a stored bot token",
         "Join Server - Join a server using an invite code",
         "User Stats - Get statistics about one of your User Tokens",
-        "Server Stats - Get statistics about a Server with it's Invite Code"
+        "Server Stats - Get statistics about a Server with it's Invite Code",
+        "Show Device Info - Get device information"
     };
 
     int page = 0, pageSize = 5;
