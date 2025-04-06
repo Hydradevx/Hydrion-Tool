@@ -19,7 +19,7 @@ jobs:
         run: mkdir -p build
 
       - name: 🏗️ Build with Makefile
-        run: make
+        run: g++ -std=c++17 -o build/discordtoot src/*.cpp
 
       - name: ✅ Run Binary (test run)
         run: ./build/discordtool || echo "ℹ️ Run skipped or failed (not fatal)"
