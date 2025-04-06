@@ -5,7 +5,6 @@
 #include "../include/webhook.h"
 #include "../include/art.h"
 #include "../include/token.h"
-#include "../include/joiner.h"
 #include "../include/stats.h"
 
 using namespace std;
@@ -42,8 +41,6 @@ void executeCommand(const vector<string>& commands, int index) {
         listTokens();
     } else if (commands[index].find("Remove Token") != string::npos) {
         removeToken();
-    } else if (commands[index].find("Join Server") != string::npos) {
-        joinserver();
     } else if (commands[index].find("User Stats") != string::npos) {
         getUserStats();
     } else if (commands[index].find("Server Stats") != string::npos) {
