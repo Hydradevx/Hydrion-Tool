@@ -13,13 +13,13 @@ jobs:
 
     steps:
       - name: ⚙️ Install Build Tools
-        run: sudo apt update && sudo apt install -y build-essential git
+        run: sudo apt update && sudo apt install -y build-essential git make
 
       - name: 📦 Make Build Folder
         run: mkdir -p build
 
       - name: 🏗️ Build with Makefile
-        run: g++ -std=c++17 -o build/discordtoot src/*.cpp
+        run: make
 
       - name: ✅ Run Binary (test run)
         run: ./build/discordtool || echo "ℹ️ Run skipped or failed (not fatal)"
