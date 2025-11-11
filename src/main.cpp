@@ -1,8 +1,9 @@
+#include "art.hpp"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-  cout << "Hydrion Tool!" << endl;
+  TextArt();
   return 0;
 }

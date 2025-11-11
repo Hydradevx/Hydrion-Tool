@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_executable(hydrion
     src/main.cpp
+    src/art.cpp
 )
 
 target_include_directories(hydrion PRIVATE
