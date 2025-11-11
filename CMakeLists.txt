@@ -11,6 +11,8 @@ project(Hydrion
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
+find_package(CURL REQUIRED)
+
 add_executable(hydrion
     src/main.cpp
     src/art.cpp
@@ -23,6 +25,7 @@ target_include_directories(hydrion PRIVATE
     src/
 )
 
+target_link_libraries(hydrion PRIVATE CURL::libcurl)
 # if(UNIX AND NOT APPLE)
 #     find_package(X11 REQUIRED)
 #     target_link_libraries(game X11)
