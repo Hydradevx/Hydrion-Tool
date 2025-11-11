@@ -1,9 +1,10 @@
 #include "art.hpp"
-#include <iostream>
+#include "commands.hpp"
 
 using namespace std;
 
 int main() {
-  TextArt();
+  LoadCommands();
+  LoadPage();
   return 0;
 }
