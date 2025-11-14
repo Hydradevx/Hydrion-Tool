@@ -268,3 +268,125 @@ void storeWebhook() {
 
   cout << "\033[32m[✔] Webhook saved successfully!\033[0m\n";
 }
+
+void clearWebhooks() {
+  ofstream file(WEBHOOK_FILE, ios::trunc);
+  if (!file) {
+    cout << "\033[31m[✖] Error clearing webhooks!\033[0m\n";
+    return;
+  }
+  file.close();
+  cout << "\033[32m[✔] All saved webhooks cleared!\033[0m\n";
+}
+
+void listWebhooks() {
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  ifstream file(WEBHOOK_FILE);
+  if (!file) {
+    cout << "\033[31m[✖] No saved webhooks found!\033[0m\n";
+    return;
+  }
+
+  string line;
+  for (long long ln = 1; getline(file, line); ++ln) {
+    if (!line.empty()) {
+      cout << "||" << ln << "||: " << line << "\n";
+    }
+  }
+}
+
+void deleteWebhook() {
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+  cout << "\n\033[36m[>] Enter Webhook URL to delete: \033[0m";
+  string webhook;
+  getline(cin, webhook);
+
+  const string prefix = "https://discord.com/api/webhooks/";
+  if (webhook.find(prefix) != 0) {
+    cout << "\033[31m[✖] Invalid Webhook URL!\033[0m\n";
+    return;
+  }
+
+  string rest = webhook.substr(prefix.size());
+  size_t slashPos = rest.find('/');
+  if (slashPos == string::npos) {
+    cout << "\033[31m[✖] Unable to parse webhook ID/token!\033[0m\n";
+    return;
+  }
+
+  string id = rest.substr(0, slashPos);
+  string token = rest.substr(slashPos + 1);
+
+  cout << "\033[32m[✔] Parsed Webhook ID:\033[0m " << id << "\n";
+  cout << "\033[32m[✔] Parsed Token:\033[0m " << token << "\n\n";
+
+  cout << "\033[33m[!] Sending DELETE request to Discord...\033[0m\n";
+
+  CURL *curl = curl_easy_init();
+  if (!curl) {
+    cout << "\033[31m[✖] Failed to initialize CURL!\033[0m\n";
+    return;
+  }
+
+  curl_easy_setopt(curl, CURLOPT_URL, webhook.c_str());
+  curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+  curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 5000L);
+  curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
+
+  CURLcode res = curl_easy_perform(curl);
+  long response = 0;
+  curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response);
+  curl_easy_cleanup(curl);
+
+  if (res != CURLE_OK) {
+    cout << "\033[31m[✖] CURL Error:\033[0m " << curl_easy_strerror(res)
+         << "\n";
+    return;
+  }
+
+  if (response < 200 || response >= 300) {
+    cout << "\033[31m[✖] Discord returned HTTP " << response
+         << "! Webhook may already be deleted.\033[0m\n";
+  } else {
+    cout << "\033[32m[✔] Discord Webhook deleted successfully!\033[0m\n";
+  }
+
+  ifstream infile(WEBHOOK_FILE);
+  if (!infile) {
+    cout << "\033[31m[✖] Could not open webhook file!\033[0m\n";
+    return;
+  }
+
+  vector<string> hooks;
+  string line;
+  while (getline(infile, line)) {
+    if (!line.empty())
+      hooks.push_back(line);
+  }
+  infile.close();
+
+  bool found = false;
+  vector<string> updated;
+
+  for (auto &h : hooks) {
+    if (h != webhook)
+      updated.push_back(h);
+    else
+      found = true;
+  }
+
+  if (!found) {
+    cout << "\033[33m[!] Webhook was not found locally, but it was deleted "
+            "remotely.\033[0m\n";
+  }
+
+  ofstream outfile(WEBHOOK_FILE, ios::trunc);
+  for (auto &h : updated)
+    outfile << h << "\n";
+  outfile.close();
+
+  cout << "\033[32m[✔] Webhook removed from local storage!\033[0m\n";
+}

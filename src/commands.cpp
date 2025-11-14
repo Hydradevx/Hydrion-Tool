@@ -20,4 +20,7 @@ void RegisterCommand(const string &name, const function<void()> &func) {
 void LoadCommands() {
   RegisterCommand("Store Webhook", storeWebhook);
   RegisterCommand("Spam Webhook", spamWebhook);
+  RegisterCommand("Clear Webhooks", clearWebhooks);
+  RegisterCommand("List Webhooks", listWebhooks);
+  RegisterCommand("Delete Webhook", deleteWebhook);
 }
